@@ -25,4 +25,8 @@ public class Block {
     public void setHash(String name) {
         this.hash = hash;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
