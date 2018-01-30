@@ -12,10 +12,4 @@ public class DatabaseNeo4jApplication {
 		SpringApplication.run(DatabaseNeo4jApplication.class, args);
 	}
 
-//	@Bean
-//	CommandLineRunner demo(BlockRepository blockRepository) {
-//		return args -> {
-//
-//		};
-//	}
 }
