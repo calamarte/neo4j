@@ -13,7 +13,4 @@ public interface BlockRepository extends GraphRepository<Block> {
 
     @Query("MATCH (n:Block) RETURN n ORDER BY n.index DESC LIMIT 1")
     Block getLastBlock();
-
-    @Query("MATCH (c:Block {hash:{0}}), (p:Block {hash:{1}}) CREATE (c)-[:Chain]->(p)")
-    void createChain(String currentBlockHash,String previousBlockHash);
 }

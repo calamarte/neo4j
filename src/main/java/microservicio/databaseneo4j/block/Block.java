@@ -1,9 +1,10 @@
 package microservicio.databaseneo4j.block;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
+import microservicio.databaseneo4j.repositorio.BlockRepository;
+import org.neo4j.ogm.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @NodeEntity
 public class Block {
@@ -19,6 +20,14 @@ public class Block {
     @Property private String data;
     @Property private int nonce;
 
+    @Relationship(type = "Chain",direction = Relationship.DIRECTION)
+    private Set<Block> chain = new HashSet<Block>();
+
+    public void chainWith(Block block) {
+        chain.add(block);
+    }
+
+
     private Block() {
         // Empty constructor required as of Neo4j API 2.0.5
     }
@@ -26,6 +35,7 @@ public class Block {
     public Block(String hash) {
         this.hash = hash;
     }
+
 
     public String getHash() {
         return hash;
@@ -73,5 +83,13 @@ public class Block {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public Set<Block> getChain() {
+        return chain;
+    }
+
+    public void setChain(Set<Block> chain) {
+        this.chain = chain;
     }
 }

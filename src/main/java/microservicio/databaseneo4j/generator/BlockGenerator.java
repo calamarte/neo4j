@@ -74,10 +74,9 @@ public class BlockGenerator {
     }
 
     private void saveBlock(Block block){
-        blockRepository.save(block);
-
         if(block.getPreviousHash() != null){
-            blockRepository.createChain(block.getHash(),block.getPreviousHash());
+            block.chainWith(blockRepository.getLastBlock());
         }
+        blockRepository.save(block);
     }
 }
