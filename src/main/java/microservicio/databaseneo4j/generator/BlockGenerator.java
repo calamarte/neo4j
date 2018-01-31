@@ -2,13 +2,12 @@ package microservicio.databaseneo4j.generator;
 
 import com.google.common.hash.Hashing;
 import microservicio.databaseneo4j.block.Block;
-import microservicio.databaseneo4j.repositorio.BlockRepository;
+import microservicio.databaseneo4j.repository.BlockRepository;
 import org.neo4j.ogm.json.JSONException;
 import org.neo4j.ogm.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
@@ -21,7 +20,7 @@ public class BlockGenerator {
     private String difficulty;
 
     public void createBlock(JSONObject data){
-        JSONObject toHash = new JSONObject();
+        JSONObject hashData = new JSONObject();
         Date currentTime = new Date();
         long currentUnixTime = currentTime.getTime();
 
@@ -33,24 +32,22 @@ public class BlockGenerator {
                 previousHash = null;
             }
 
-            toHash.put("previousHash",previousHash);
-            toHash.put("time",currentUnixTime);
-            toHash.put("data",data);
+            hashData.put("previousHash",previousHash);
+            hashData.put("time",currentUnixTime);
+            hashData.put("data",data);
 
             String hash;
             int nonce = 0;
 
             while (true){
-                toHash.put("nonce",nonce);
-                hash = generateHash(toHash.toString());
+                hashData.put("nonce",nonce);
+                hash = generateHash(hashData.toString());
 
                 if(hash.startsWith(difficulty)){
                     break;
                 }
                 nonce++;
             }
-            System.out.println(toHash.toString());
-            System.out.println(hash);
 
             Block block = new Block(hash);
             block.setPreviousHash(previousHash);
@@ -69,13 +66,13 @@ public class BlockGenerator {
         }
     }
 
-    private String generateHash(String toHash) {
-        return Hashing.sha256().hashString(toHash, StandardCharsets.UTF_8).toString();
+    private String generateHash(String preHash) {
+        return Hashing.sha256().hashString(preHash, StandardCharsets.UTF_8).toString();
     }
 
     private void saveBlock(Block block){
         if(block.getPreviousHash() != null){
-            block.chainWith(blockRepository.getLastBlock());
+            block.chainBlock(blockRepository.getLastBlock());
         }
         blockRepository.save(block);
     }

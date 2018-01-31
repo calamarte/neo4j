@@ -1,8 +1,6 @@
 package microservicio.databaseneo4j.block;
 
-import microservicio.databaseneo4j.repositorio.BlockRepository;
 import org.neo4j.ogm.annotation.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +21,7 @@ public class Block {
     @Relationship(type = "Chain",direction = Relationship.DIRECTION)
     private Set<Block> chain = new HashSet<Block>();
 
-    public void chainWith(Block block) {
+    public void chainBlock(Block block) {
         chain.add(block);
     }
 

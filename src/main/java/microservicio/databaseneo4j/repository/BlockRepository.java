@@ -1,4 +1,4 @@
-package microservicio.databaseneo4j.repositorio;
+package microservicio.databaseneo4j.repository;
 
 import microservicio.databaseneo4j.block.Block;
 import org.springframework.data.neo4j.annotation.Query;
