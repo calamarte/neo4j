@@ -1,6 +1,7 @@
 package microservicio.databaseneo4j.block;
 
 import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 
@@ -8,6 +9,9 @@ import org.neo4j.ogm.annotation.Property;
 public class Block {
 
     @GraphId private Long id;
+
+    @Index(primary = true,unique = true)
+    private int index;
 
     @Property private String hash;
     @Property private String previousHash;
@@ -61,5 +65,13 @@ public class Block {
 
     public void setNonce(int nonce) {
         this.nonce = nonce;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

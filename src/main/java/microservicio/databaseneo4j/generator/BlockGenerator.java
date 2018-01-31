@@ -42,7 +42,7 @@ public class BlockGenerator {
 
             while (true){
                 toHash.put("nonce",nonce);
-                 hash = generateHash(toHash.toString());
+                hash = generateHash(toHash.toString());
 
                 if(hash.startsWith(difficulty)){
                     break;
@@ -57,6 +57,10 @@ public class BlockGenerator {
             block.setTime(currentUnixTime);
             block.setData(data.toString());
             block.setNonce(nonce);
+
+            if(previousHash != null){
+                block.setIndex(blockRepository.getLastBlock().getIndex()+1);
+            }
 
             saveBlock(block);
 
