@@ -1,6 +1,7 @@
 package microservicio.databaseneo4j.controller;
 
 import microservicio.databaseneo4j.block.Block;
+import microservicio.databaseneo4j.generator.BlockGenerator;
 import microservicio.databaseneo4j.repositorio.BlockRepository;
 import org.neo4j.ogm.json.JSONException;
 import org.neo4j.ogm.json.JSONObject;
@@ -20,6 +21,9 @@ import java.util.List;
 public class ControllerBlockChange {
     @Autowired
     private BlockRepository blockRepository;
+
+    @Autowired
+    private BlockGenerator blockGenerator;
 
     @RequestMapping(path = "/blocks")
     public Iterable<Block> showBlocks(){
@@ -53,7 +57,8 @@ public class ControllerBlockChange {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<String> getData(@RequestBody String data){
         try {
-            JSONObject jsonObject = new JSONObject(data);
+
+            blockGenerator.createBlock(new JSONObject(data));
 
             return new ResponseEntity<String>(data, HttpStatus.OK);
         } catch (JSONException e) {

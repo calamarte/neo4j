@@ -13,6 +13,7 @@ public class Block {
     @Property private String previousHash;
     @Property private long time;
     @Property private String data;
+    @Property private int nonce;
 
     private Block() {
         // Empty constructor required as of Neo4j API 2.0.5
@@ -52,5 +53,13 @@ public class Block {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public int getNonce() {
+        return nonce;
+    }
+
+    public void setNonce(int nonce) {
+        this.nonce = nonce;
     }
 }
